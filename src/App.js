@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./App.css";
 
 function App() {
+  const [image, setImage] = useState([]);
+
+  const getImg = async () => {
+    const response = await fetch(
+      "http://www.mocky.io/v2/5ecb5c353000008f00ddd5a0"
+    );
+    setImage(await response.json());
+  };
+
+  useEffect(() => {
+    getImg();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="container-fluid">
+        <div className="gallery mt-1 ">
+          {image.map((currElem) => {
+            return <img src={currElem.urls.small} />;
+          })}
+        </div>
+      </div>
+    </>
   );
 }
 
